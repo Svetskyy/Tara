@@ -3,10 +3,10 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
+  host: "154.41.240.103",
+  user: "u532639681_root",
   password: "W@2915djkq#",
-  database: "mydatabase"
+  database: "u532639681_mydatabase"
 });
 
 db.connect((err) => {
@@ -27,6 +27,15 @@ app.use(express.static("./"));
 // Optional: Default route to serve index.html
 app.get("/", (req, res) => {
   res.sendFile("index.html", { root: "." });
+});
+
+// Check database connection status
+app.get("/api/check-connection", (req, res) => {
+  if (db.state === 'disconnected') {
+    res.json({ connected: false });
+  } else {
+    res.json({ connected: true });
+  }
 });
 
 app.post("/api/check", (req, res) => {

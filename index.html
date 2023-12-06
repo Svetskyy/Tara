@@ -15,6 +15,7 @@
 </head>
 
 <body onload="initMap()">
+  <div id="connection-status"></div>
   <div class="loading-overlay" id="loadingOverlay">
     <div class="popup-container">
       <div class="spinner-border" role="status">
@@ -140,6 +141,26 @@
     }
   }
 
+  
+  document.addEventListener("DOMContentLoaded", () => {
+      checkDatabaseConnection();
+    });
+
+    async function checkDatabaseConnection() {
+      try {
+        const response = await fetch('/api/check-connection');
+        const data = await response.json();
+
+        const connectionStatusDiv = document.getElementById('connection-status');
+        if (data.connected) {
+          console.log('Connected to the database.');
+        } else {
+          console.log('Not connected to the database.');
+        }
+      } catch (error) {
+        console.error('Error checking database connection:', error);
+      }
+    }
 
   
 
